@@ -1,0 +1,10 @@
+__pycache__/
+.venv/
+.env
+data/cti-bench/
+data/raw/
+data/processed/cve_chunks.jsonl
+data/processed/cve_cwe_index.json
+data/processed/*.npy
+eval_failures_debug.jsonl
+logs/

@@ -1,0 +1,18 @@
+{
+  "mapped": {
+    "file": "phi4_mapped.csv",
+    "sha256": "d8eefb9e395cbf8f6962b450c82ebb79558596a2212ad4d9b726f0884df0ce80",
+    "count": 903,
+    "correct": 837,
+    "source_log": "eval_phi4_mapped903_context_prompt_20260524_234345.log",
+    "source_sha256": "823dd8940cd812e26937fcbc3185be2d8e22dea0a62a6cc5a26bf1141708cb2c"
+  },
+  "unmapped": {
+    "file": "phi4_unmapped.csv",
+    "sha256": "3747e7f2a5db2a03763964b215ae667eead35d90ee60d8763ff08643217669f1",
+    "count": 97,
+    "correct": 72,
+    "source_log": "eval_phi4_mini_reasoning_unmapped97_context_prompt_20260525_003537.log",
+    "source_sha256": "bded532772d52d2e263f146c7a5998eb1f4ff73608661b688e3e1dd448b859d1"
+  }
+}
