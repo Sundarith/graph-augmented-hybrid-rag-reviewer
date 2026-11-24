@@ -8,7 +8,11 @@ The CSVs preserve scored outcomes. Raw model responses are absent, so this check
 
 ## 2. Install the archived implementation
 
-The implementation and requirements are from the archived public code snapshot at commit `ec41386f7707cf24e0337536255d16cb0bc307d5`. Use a Python environment with the dependencies in [requirements.txt](../requirements.txt). A separate environment can serve the answer model with vLLM. The archived requirements specify a vLLM version range.
+The implementation and requirements are from the archived public code snapshot at commit `ec41386f7707cf24e0337536255d16cb0bc307d5`. Install the [retrieval dependencies](../requirements-retrieval.txt) with a CUDA-capable PyTorch build. Serve the answer model from a separate environment with vLLM 0.19.x. [requirements.txt](../requirements.txt) preserves the archived dependency list.
+
+```bash
+python3 -m pip install -r requirements-retrieval.txt
+```
 
 ## 3. Load the benchmark and construct the corpus
 
@@ -22,17 +26,7 @@ This is the benchmark revision available in the working checkout when preparing 
 Place an independently obtained CVE Services JSON corpus under `data/raw/cves/cves/YYYY/`, using the CVE 5 record format expected by the builder. The archived builder reads explicit `cweId` values in CNA and ADP problem-type fields. The bundled CWE text chunks are derived from the MITRE CWE catalog.
 
 ```bash
-python3 build_cve_chunks.py
-python3 - <<'PY'
-import json
-from pathlib import Path
-
-directory = Path("data/processed")
-with (directory / "cve_chunks.jsonl").open(encoding="utf-8") as source:
-    records = (json.loads(line) for line in source)
-    index = {record["identifier"]: record.get("cwe_ids", []) for record in records}
-(directory / "cve_cwe_index.json").write_text(json.dumps(index), encoding="utf-8")
-PY
+python3 prepare_corpus.py
 ```
 
 The May runs recorded 332,104 loaded CVE and CWE chunks. The exact May corpus and embedding cache are unavailable in this package. A different corpus snapshot can change the mapped/unmapped split and retrieval results.
@@ -47,7 +41,11 @@ vllm serve microsoft/Phi-4-mini-reasoning \
   --max-model-len 24576 --gpu-memory-utilization 0.90
 ```
 
-In the retrieval environment:
+In the retrieval environment, run a single question or score the benchmark:
+
+```bash
+python3 predict.py 'Which CWE best describes unchecked writes beyond a buffer boundary?'
+```
 
 ```bash
 export CTI_RAG_EMBEDDER_DEVICE=cuda
